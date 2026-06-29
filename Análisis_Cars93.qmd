@@ -1,0 +1,43 @@
+---
+title: "Análisis_Cars93"
+author: "JuliánMazas"
+format: html
+editor: visual
+---
+
+## Cargar librerías
+
+```{r}
+library(MASS)
+```
+
+El paquete MASS en R proporciona funciones y conjuntos de datos de Modern Applied Statistics with S y se utiliza ampliamente para el modelado estadístico y el análisis de datos.
+
+## Cars93
+
+Usaremos la base de datos "Cars93". Los automóviles se seleccionaron al azar entre los modelos de autos de 1993 que figuraban tanto en la revista Consumer Reports como en la guía de compra PACE. Se excluyeron las camionetas pickup y los vehículos utilitarios deportivos (SUV) debido a la información incompleta en la revista Consumer Reports. Los modelos duplicados (por ejemplo, Dodge Shadow y Plymouth Sundance) se incluyeron como máximo una vez.
+
+```{r}
+help(Cars93)
+View(Cars93)
+str(Cars93)
+```
+
+## Análisis de variables categoricas
+
+Variable Manufacture
+
+pie(tab.fabricante)
+
+```{r}
+unique(Cars93$Manufacturer)
+tab.fabricante = table(Cars93$Manufacturer)
+```
+
+```{r}
+barplot(tab.fabricante, las = 2, ylab = "Número de autos fabricados", col = "aquamarine", main = "Autos por marca")
+```
+
+```{r}
+pie(tab.fabricante)
+```
