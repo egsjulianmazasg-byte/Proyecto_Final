@@ -1,6 +1,6 @@
 ---
 title: "Análisis_Cars93"
-author: "JuliánMazas"
+author: "Julián Mazas Gonzales, Carlos Daniel Reséndiz Flores, Christian Alexis Ramirez Conejo"
 format: html
 editor: visual
 ---
@@ -9,6 +9,7 @@ editor: visual
 
 ```{r}
 library(MASS)
+library(ggplot2)
 ```
 
 El paquete MASS en R proporciona funciones y conjuntos de datos de Modern Applied Statistics with S y se utiliza ampliamente para el modelado estadístico y el análisis de datos.
@@ -41,3 +42,70 @@ barplot(tab.fabricante, las = 2, ylab = "Número de autos fabricados", col = "aq
 ```{r}
 pie(tab.fabricante)
 ```
+
+## Analisis del precio por automovil
+
+### Pregunta 1. ¿Existe una relación entre el tamaño del motor y el precio promedio de los automóviles?
+
+Contruimos un diagrama de dispersión con una línea de regresión, para identificar si existe una tendencia entre ambas variables.
+
+```{r}
+
+ggplot(Cars93,
+       aes(x = EngineSize,
+           y = Price,
+           color = Type)) +
+  geom_point(size = 3, alpha = 0.8) +
+  geom_smooth(method = "lm",
+              se = TRUE,
+              color = "black",
+              linewidth = 1) +
+  labs(
+    title = "Relación entre el tamaño del motor y el precio",
+    x = "Tamaño del motor (L)",
+    y = "Precio promedio (miles de dólares)",
+    color = "Tipo de automóvil"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    legend.position = "bottom"
+  )
+```
+
+**Interpretación**
+
+La gráfica muestra una correlación directamente proporcional entre el tamaño del motor y el precio promedio de los automóviles. Los vehículos con motores de mayor tamaño presentan precios más elevados. Los colores permiten distinguir tambien como estas dos variables tambien estan relacionadas con el tipo de automovil.
+
+------------------------------------------------------------------------
+
+### Pregunta 2. ¿Cómo se distribuye el precio de los automóviles según su tipo?
+
+Se utiliza un BoxPlot para comparar la distribución de los precios entre los diferentes tipos de automóviles.
+
+```{r}
+
+ggplot(Cars93,
+       aes(x = Type,
+           y = Price,
+           fill = Type)) +
+  geom_boxplot(alpha = 0.8,
+               outlier.color = "red") +
+  labs(
+    title = "Distribución del precio por tipo de automóvil",
+    x = "Tipo de automóvil",
+    y = "Precio promedio (miles de dólares)",
+    fill = "Tipo"
+  ) +
+  scale_fill_brewer(palette = "Set2") +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 30, hjust = 1),
+    legend.position = "none"
+  )
+```
+
+**Interpretación**
+
+El BoxPlot permite comparar como varian los precios entre los distintos tipos de automóviles. Se observan diferencias en la mediana y en la dispersión de los precios, además de algunos valores atípicos que corresponden a vehículos con precios considerablemente superiores al resto de su categoría.
