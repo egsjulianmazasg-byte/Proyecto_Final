@@ -109,3 +109,47 @@ ggplot(Cars93,
 **Interpretación**
 
 El BoxPlot permite comparar como varian los precios entre los distintos tipos de automóviles. Se observan diferencias en la mediana y en la dispersión de los precios, además de algunos valores atípicos que corresponden a vehículos con precios considerablemente superiores al resto de su categoría.
+
+### Pregunta 3. ¿Cómo se distribuye la oferta de tipos de automóviles entre los distintos fabricantes y qué nivel de seguridad (bolsas de aire) incluyen de fábrica?
+
+Para responder a esto, utilizamos tablas de contingencia que nos permiten observar las frecuencias y cruzar los datos entre el fabricante, el tipo de vehículo y la disponibilidad de bolsas de aire.
+
+```{r}
+unique(Cars93$Type)
+table(Cars93$Type)
+table(Cars93$Manufacturer, Cars93$Type)
+table(Cars93$Manufacturer, Cars93$Type, Cars93$AirBags)
+```
+
+**Interpretación**
+Las tablas multidimensionales muestran cómo cada fabricante concentra su producción en ciertos segmentos (tipos de automóvil). Al agregar la tercera variable de seguridad, podemos identificar si el equipamiento de bolsas de aire está estandarizado en la mayoría de los vehículos de una marca, o si está reservado únicamente para ciertos tipos de automóviles de mayor gama, dejando a otros modelos desprotegidos.
+
+```{r}
+ggplot(Cars93, 
+       aes(x = Type, 
+           fill = AirBags)) +
+  geom_bar(color = "gray20", 
+           alpha = 0.9,
+           linewidth = 0.5) +
+  labs(
+    title = "Equipamiento de Seguridad por Categoría",
+    subtitle = "Disponibilidad de bolsas de aire según el tipo de automóvil",
+    x = "Tipo de automóvil",
+    y = "Número de vehículos",
+    fill = "Bolsas de Aire:"
+  ) +
+  scale_fill_viridis_d(option = "mako", direction = -1) + 
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(color = "gray40", size = 12),
+    axis.text.x = element_text(angle = 35, hjust = 1, face = "bold"),
+    legend.position = "top",
+    legend.title = element_text(face = "bold"),
+    panel.grid.major.x = element_blank() 
+  )
+```
+
+**Interpretación visual**
+
+El gráfico de barras confirma claramente lo observado en las tablas: los vehículos de categorías "Small" y "Sporty" presentan una mayor carencia de bolsas de aire, mientras que las categorías "Midsize" y "Large" destacan por incluir sistemas de seguridad (para el conductor o pasajeros) como una característica estándar.
